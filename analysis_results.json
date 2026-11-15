@@ -1,0 +1,493 @@
+{
+  "n_total": 2662,
+  "n_regression": 2640,
+  "n_dropped": 22,
+  "main_model": {
+    "formula": "log_price ~ area_m2 + rooms + age + floor_ratio + C(heat_grp) + C(city_grp)",
+    "n": 2640,
+    "r2": 0.6377,
+    "r2_adj": 0.6357,
+    "f_stat": 245.28,
+    "f_pvalue": 0.0,
+    "coefs": [
+      {
+        "name": "Intercept",
+        "coef": 5.6407,
+        "se": 0.0304,
+        "t": 185.43,
+        "p": 0.0
+      },
+      {
+        "name": "C(heat_grp)[T.Centrinis kolektorinis]",
+        "coef": 0.1893,
+        "se": 0.014,
+        "t": 13.55,
+        "p": 0.0
+      },
+      {
+        "name": "C(heat_grp)[T.Dujinis]",
+        "coef": 0.0884,
+        "se": 0.0227,
+        "t": 3.89,
+        "p": 0.0001
+      },
+      {
+        "name": "C(heat_grp)[T.Elektra]",
+        "coef": 0.0616,
+        "se": 0.0322,
+        "t": 1.91,
+        "p": 0.0557
+      },
+      {
+        "name": "C(heat_grp)[T.Other]",
+        "coef": 0.1823,
+        "se": 0.0318,
+        "t": 5.73,
+        "p": 0.0
+      },
+      {
+        "name": "C(city_grp)[T.Klaipėda]",
+        "coef": -0.163,
+        "se": 0.0221,
+        "t": -7.39,
+        "p": 0.0
+      },
+      {
+        "name": "C(city_grp)[T.Other]",
+        "coef": -0.3929,
+        "se": 0.0288,
+        "t": -13.63,
+        "p": 0.0
+      },
+      {
+        "name": "C(city_grp)[T.Palanga]",
+        "coef": -0.2518,
+        "se": 0.0375,
+        "t": -6.71,
+        "p": 0.0
+      },
+      {
+        "name": "C(city_grp)[T.Panevėžys]",
+        "coef": -0.3975,
+        "se": 0.0473,
+        "t": -8.41,
+        "p": 0.0
+      },
+      {
+        "name": "C(city_grp)[T.Vilnius]",
+        "coef": 0.1439,
+        "se": 0.0178,
+        "t": 8.06,
+        "p": 0.0
+      },
+      {
+        "name": "C(city_grp)[T.Šiauliai]",
+        "coef": -0.3243,
+        "se": 0.0315,
+        "t": -10.29,
+        "p": 0.0
+      },
+      {
+        "name": "area_m2",
+        "coef": 0.0091,
+        "se": 0.0008,
+        "t": 11.09,
+        "p": 0.0
+      },
+      {
+        "name": "rooms",
+        "coef": 0.1406,
+        "se": 0.0193,
+        "t": 7.3,
+        "p": 0.0
+      },
+      {
+        "name": "age",
+        "coef": -0.0009,
+        "se": 0.0002,
+        "t": -3.53,
+        "p": 0.0004
+      },
+      {
+        "name": "floor_ratio",
+        "coef": 0.0247,
+        "se": 0.0204,
+        "t": 1.21,
+        "p": 0.226
+      }
+    ]
+  },
+  "diagnostics": {
+    "breusch_pagan_stat": 148.45,
+    "breusch_pagan_p": 0.0,
+    "vif": {
+      "area_m2": 2.61,
+      "rooms": 2.61,
+      "age": 1.01,
+      "floor_ratio": 1.01
+    },
+    "n_influential_cooks": 177,
+    "cooks_threshold": 0.00152
+  },
+  "logit_model": {
+    "formula": "price_cut ~ area_m2 + rooms + age + floor_ratio + C(heat_grp) + C(city_grp)",
+    "n": 2640,
+    "pseudo_r2": 0.0127,
+    "pct_price_cuts": 24.9,
+    "coefs": [
+      {
+        "name": "Intercept",
+        "coef": -0.3967,
+        "se": 0.2154,
+        "t": -1.84,
+        "p": 0.0655
+      },
+      {
+        "name": "C(heat_grp)[T.Centrinis kolektorinis]",
+        "coef": -0.0205,
+        "se": 0.1212,
+        "t": -0.17,
+        "p": 0.8655
+      },
+      {
+        "name": "C(heat_grp)[T.Dujinis]",
+        "coef": 0.1656,
+        "se": 0.1495,
+        "t": 1.11,
+        "p": 0.268
+      },
+      {
+        "name": "C(heat_grp)[T.Elektra]",
+        "coef": -0.1183,
+        "se": 0.2121,
+        "t": -0.56,
+        "p": 0.577
+      },
+      {
+        "name": "C(heat_grp)[T.Other]",
+        "coef": 0.0167,
+        "se": 0.2535,
+        "t": 0.07,
+        "p": 0.9473
+      },
+      {
+        "name": "C(city_grp)[T.Klaipėda]",
+        "coef": 0.1924,
+        "se": 0.1688,
+        "t": 1.14,
+        "p": 0.2545
+      },
+      {
+        "name": "C(city_grp)[T.Other]",
+        "coef": -0.3304,
+        "se": 0.1886,
+        "t": -1.75,
+        "p": 0.0797
+      },
+      {
+        "name": "C(city_grp)[T.Palanga]",
+        "coef": 0.3328,
+        "se": 0.2466,
+        "t": 1.35,
+        "p": 0.1771
+      },
+      {
+        "name": "C(city_grp)[T.Panevėžys]",
+        "coef": 0.0249,
+        "se": 0.3338,
+        "t": 0.07,
+        "p": 0.9405
+      },
+      {
+        "name": "C(city_grp)[T.Vilnius]",
+        "coef": -0.2254,
+        "se": 0.1298,
+        "t": -1.74,
+        "p": 0.0825
+      },
+      {
+        "name": "C(city_grp)[T.Šiauliai]",
+        "coef": -0.0237,
+        "se": 0.2542,
+        "t": -0.09,
+        "p": 0.9258
+      },
+      {
+        "name": "area_m2",
+        "coef": -0.0039,
+        "se": 0.0036,
+        "t": -1.1,
+        "p": 0.2715
+      },
+      {
+        "name": "rooms",
+        "coef": 0.0484,
+        "se": 0.096,
+        "t": 0.5,
+        "p": 0.6143
+      },
+      {
+        "name": "age",
+        "coef": -0.0037,
+        "se": 0.0018,
+        "t": -2.04,
+        "p": 0.041
+      },
+      {
+        "name": "floor_ratio",
+        "coef": -0.6013,
+        "se": 0.1674,
+        "t": -3.59,
+        "p": 0.0003
+      }
+    ]
+  },
+  "vilnius_model": {
+    "formula": "log_price ~ area_m2 + rooms + age + floor_ratio + C(heat_grp) + C(district_grp)",
+    "n": 1393,
+    "r2": 0.7622,
+    "r2_adj": 0.7568,
+    "coefs": [
+      {
+        "name": "Intercept",
+        "coef": 5.8104,
+        "se": 0.0379,
+        "t": 153.28,
+        "p": 0.0
+      },
+      {
+        "name": "C(heat_grp)[T.Centrinis kolektorinis]",
+        "coef": 0.0939,
+        "se": 0.0164,
+        "t": 5.74,
+        "p": 0.0
+      },
+      {
+        "name": "C(heat_grp)[T.Dujinis]",
+        "coef": 0.0385,
+        "se": 0.0289,
+        "t": 1.33,
+        "p": 0.1831
+      },
+      {
+        "name": "C(heat_grp)[T.Elektra]",
+        "coef": -0.0125,
+        "se": 0.0289,
+        "t": -0.43,
+        "p": 0.667
+      },
+      {
+        "name": "C(heat_grp)[T.Other]",
+        "coef": 0.1523,
+        "se": 0.0319,
+        "t": 4.78,
+        "p": 0.0
+      },
+      {
+        "name": "C(district_grp)[T.Baltupiai]",
+        "coef": -0.0581,
+        "se": 0.0363,
+        "t": -1.6,
+        "p": 0.1095
+      },
+      {
+        "name": "C(district_grp)[T.Fabijoniškės]",
+        "coef": -0.1058,
+        "se": 0.0377,
+        "t": -2.81,
+        "p": 0.005
+      },
+      {
+        "name": "C(district_grp)[T.Jeruzalė]",
+        "coef": -0.1059,
+        "se": 0.0624,
+        "t": -1.7,
+        "p": 0.0896
+      },
+      {
+        "name": "C(district_grp)[T.Justiniškės]",
+        "coef": -0.0534,
+        "se": 0.0525,
+        "t": -1.02,
+        "p": 0.3096
+      },
+      {
+        "name": "C(district_grp)[T.Karoliniškės]",
+        "coef": -0.1401,
+        "se": 0.0534,
+        "t": -2.62,
+        "p": 0.0087
+      },
+      {
+        "name": "C(district_grp)[T.Lazdynai]",
+        "coef": -0.0918,
+        "se": 0.0367,
+        "t": -2.5,
+        "p": 0.0124
+      },
+      {
+        "name": "C(district_grp)[T.Lazdynėliai]",
+        "coef": -0.0358,
+        "se": 0.0366,
+        "t": -0.98,
+        "p": 0.3281
+      },
+      {
+        "name": "C(district_grp)[T.Markučiai]",
+        "coef": 0.1236,
+        "se": 0.0642,
+        "t": 1.93,
+        "p": 0.0542
+      },
+      {
+        "name": "C(district_grp)[T.Naujamiestis]",
+        "coef": 0.1697,
+        "se": 0.0298,
+        "t": 5.69,
+        "p": 0.0
+      },
+      {
+        "name": "C(district_grp)[T.Naujininkai]",
+        "coef": -0.0428,
+        "se": 0.0366,
+        "t": -1.17,
+        "p": 0.2419
+      },
+      {
+        "name": "C(district_grp)[T.Naujoji Vilnia]",
+        "coef": -0.1485,
+        "se": 0.0432,
+        "t": -3.44,
+        "p": 0.0006
+      },
+      {
+        "name": "C(district_grp)[T.Other]",
+        "coef": -0.0661,
+        "se": 0.0389,
+        "t": -1.7,
+        "p": 0.0889
+      },
+      {
+        "name": "C(district_grp)[T.Paupys]",
+        "coef": 0.4393,
+        "se": 0.0544,
+        "t": 8.08,
+        "p": 0.0
+      },
+      {
+        "name": "C(district_grp)[T.Pašilaičiai]",
+        "coef": -0.1294,
+        "se": 0.0294,
+        "t": -4.4,
+        "p": 0.0
+      },
+      {
+        "name": "C(district_grp)[T.Pilaitė]",
+        "coef": -0.1068,
+        "se": 0.0335,
+        "t": -3.19,
+        "p": 0.0014
+      },
+      {
+        "name": "C(district_grp)[T.Senamiestis]",
+        "coef": 0.3391,
+        "se": 0.0314,
+        "t": 10.81,
+        "p": 0.0
+      },
+      {
+        "name": "C(district_grp)[T.Užupis]",
+        "coef": 0.2929,
+        "se": 0.0532,
+        "t": 5.51,
+        "p": 0.0
+      },
+      {
+        "name": "C(district_grp)[T.Viršuliškės]",
+        "coef": -0.0396,
+        "se": 0.0433,
+        "t": -0.91,
+        "p": 0.3608
+      },
+      {
+        "name": "C(district_grp)[T.Šeškinė]",
+        "coef": -0.0412,
+        "se": 0.037,
+        "t": -1.12,
+        "p": 0.2648
+      },
+      {
+        "name": "C(district_grp)[T.Šiaurės miestelis]",
+        "coef": -0.0789,
+        "se": 0.0393,
+        "t": -2.01,
+        "p": 0.0447
+      },
+      {
+        "name": "C(district_grp)[T.Šnipiškės]",
+        "coef": 0.106,
+        "se": 0.0324,
+        "t": 3.27,
+        "p": 0.0011
+      },
+      {
+        "name": "C(district_grp)[T.Žirmūnai]",
+        "coef": 0.0381,
+        "se": 0.03,
+        "t": 1.27,
+        "p": 0.2046
+      },
+      {
+        "name": "C(district_grp)[T.Žvėrynas]",
+        "coef": 0.1112,
+        "se": 0.0355,
+        "t": 3.13,
+        "p": 0.0017
+      },
+      {
+        "name": "area_m2",
+        "coef": 0.0093,
+        "se": 0.0008,
+        "t": 11.72,
+        "p": 0.0
+      },
+      {
+        "name": "rooms",
+        "coef": 0.1496,
+        "se": 0.0206,
+        "t": 7.28,
+        "p": 0.0
+      },
+      {
+        "name": "age",
+        "coef": -0.0029,
+        "se": 0.0003,
+        "t": -8.43,
+        "p": 0.0
+      },
+      {
+        "name": "floor_ratio",
+        "coef": 0.0212,
+        "se": 0.0228,
+        "t": 0.93,
+        "p": 0.3532
+      }
+    ]
+  },
+  "city_counts": {
+    "Vilnius": 1401,
+    "Kaunas": 437,
+    "Klaipėda": 302,
+    "Other": 265,
+    "Šiauliai": 103,
+    "Palanga": 101,
+    "Panevėžys": 53
+  },
+  "heat_counts": {
+    "Centrinis": 1257,
+    "Centrinis kolektorinis": 823,
+    "Dujinis": 316,
+    "Elektra": 152,
+    "Other": 92
+  }
+}
