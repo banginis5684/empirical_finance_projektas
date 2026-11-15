@@ -34,7 +34,7 @@ analysis can still present it confidently or review it critically.
     ├── apply_theme.js              Small helper: writes the monochrome theme colors into a pptxgenjs-built .pptx
     ├── package.json / package-lock.json   Node dependency pin (pptxgenjs)
     ├── assets/*.png                All chart and equation images used by the deck
-    └── Rental_Price_Hedonics.pptx  ⭐ The deck — 20 slides
+    └── Rental_Price_Hedonics.pptx   The deck — 20 slides
 ```
 
 **Everything regenerates from `alldataaruodas.txt` alone.** Nothing here is hand-edited data — every
