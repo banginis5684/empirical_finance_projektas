@@ -90,7 +90,6 @@ ax.set_xlabel("Area (m²)"); ax.set_ylabel(r"$\ln(\mathrm{Price})$"); ax.set_tit
 
 ax = axes[1]
 means = reg.groupby("rooms")["log_price"].mean()
-cnt = reg.groupby("rooms")["log_price"].count()
 ax.scatter(reg["rooms"] + np.random.default_rng(0).uniform(-0.12, 0.12, len(reg)), reg["log_price"],
            s=10, alpha=0.18, color=BLACK, linewidths=0)
 ax.plot(means.index, means.values, color=BLACK, linewidth=2, marker="o", markersize=5)
@@ -164,10 +163,10 @@ savefig(fig, "coefplot")
 city_order = ["Vilnius", "Klaipėda", "Palanga", "Panevėžys", "Šiauliai", "Other"]
 city_eff = [model.params[f"C(city_grp)[T.{c}]"] * 100 for c in city_order]
 
-dist_rows = [("Paupys", 0.4393), ("Senamiestis", 0.3391), ("Užupis", 0.2929), ("Žvėrynas", 0.1112),
-             ("Šnipėčai" if False else "Šnipėškės", 0.1060), ("Naujamiestis", 0.1697),
-             ("Baltupiai", -0.0581), ("Pašilaičiai", -0.1294), ("Pilaitė", -0.1068),
-             ("Karoliniškės", -0.1401), ("Naujoji Vilnia", -0.1485)]
+DISTRICTS = ["Paupys", "Senamiestis", "Užupis", "Žvėrynas", "Šnipiškės", "Naujamiestis",
+             "Baltupiai", "Pašilaičiai", "Pilaitė", "Karoliniškės", "Naujoji Vilnia"]
+
+dist_rows = [(d, vil_model.params[f"C(district_grp)[T.{d}]"]) for d in DISTRICTS]
 dist_rows = sorted(dist_rows, key=lambda r: r[1])
 dist_labels = [r[0] for r in dist_rows]
 dist_eff = [r[1] * 100 for r in dist_rows]

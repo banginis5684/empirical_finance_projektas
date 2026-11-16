@@ -8,6 +8,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
+from matplotlib.patches import Patch
 
 plt.rcParams.update({
     "font.family": "serif",
@@ -59,15 +60,20 @@ adj = [r["adjusted_pct"] for r in cg]
 y = np.arange(len(cities))
 h = 0.35
 fig, ax = plt.subplots(figsize=(8.5, 5.0))
-ax.barh(y + h / 2, raw, height=h, color="white", edgecolor=BLACK, linewidth=1.2, label="Raw gap (unconditional)")
-ax.barh(y - h / 2, adj, height=h, color=BLACK, edgecolor=BLACK, linewidth=1.2, label="Adjusted gap (regression)")
+ax.barh(y + h / 2, raw, height=h, color="white", edgecolor=BLACK, linewidth=1.2)
+ax.barh(y - h / 2, adj, height=h, color=BLACK, edgecolor=BLACK, linewidth=1.2)
 ax.axvline(0, color=BLACK, linewidth=1)
 ax.set_yticks(y); ax.set_yticklabels(cities)
 ax.set_xlabel("% rent gap vs. Kaunas")
 ax.set_title("City rent gaps: raw vs. holding size, age, heating fixed")
 ax.xaxis.set_major_formatter(mticker.FormatStrFormatter("%+.0f%%"))
-ax.legend(loc="lower right", frameon=False, fontsize=10)
-fig.tight_layout()
+handles = [
+    Patch(facecolor="white", edgecolor=BLACK, linewidth=1.2, label="Raw gap (unconditional)"),
+    Patch(facecolor=BLACK, edgecolor=BLACK, linewidth=1.2, label="Adjusted gap (regression)"),
+]
+fig.legend(handles=handles, loc="lower center", ncol=2, frameon=False, fontsize=9.5,
+           bbox_to_anchor=(0.5, -0.02))
+fig.tight_layout(rect=(0, 0.07, 1, 1))
 savefig(fig, "city_gap_decomp")
 
 print("decomposition charts written")
