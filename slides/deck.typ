@@ -1,4 +1,4 @@
-// Rental Price Hedonics — Typst deck.
+// Rental Price Hedonics: Typst deck.
 // Style follows the VU wildcat theme used in Replication-Crisis-Finance/slides.typ:
 // 16 by 9, burgundy titles with a gold rule, facets on the opening and closing slides.
 // The deck needs no packages. Build with: typst compile deck.typ
@@ -33,20 +33,35 @@
 #set math.equation(numbering: none, block: true)
 #show math.equation.where(block: true): it => align(center, it)
 
-// One content slide: section kicker, burgundy title, gold rule, page number.
-#let slide(sec, head, body) = page(
-  header: block(width: 100%)[
-    #text(font: display, size: 7.2pt, fill: vu-70, tracking: 0.12em)[#upper(sec)]
-    #v(-1pt)
-    #text(font: display, size: 14.5pt, fill: vu)[#head]
-    #v(-2pt)
-    #line(length: 1.15cm, stroke: 1.4pt + gold)
-  ],
-  footer: align(right, text(size: 7pt, fill: grey)[
-    #context [#(counter(page).get().first()) / 20]
-  ]),
-  body,
+// Build toggle: `typst compile deck.typ --input short=true deck-short.pdf`
+// keeps only the slides a 10-minute talk needs; the default build is all 20.
+#let short = sys.inputs.at("short", default: "false") == "true"
+#let SHORT_KEEP = (
+  "Rent as a bundle of characteristics",
+  "Main regression",
+  "Zooming in: Vilnius by district",
+  "Location adds more than everything else combined",
+  "Who gets a price cut?",
+  "What this is worth, and what it is not",
 )
+
+// One content slide: section kicker, burgundy title, gold rule, page number.
+#let slide(sec, head, body) = {
+  if short and head not in SHORT_KEEP { return none }
+  page(
+    header: block(width: 100%)[
+      #text(font: display, size: 7.2pt, fill: vu-70, tracking: 0.12em)[#upper(sec)]
+      #v(-1pt)
+      #text(font: display, size: 14.5pt, fill: vu)[#head]
+      #v(-2pt)
+      #line(length: 1.15cm, stroke: 1.4pt + gold)
+    ],
+    footer: align(right, text(size: 7pt, fill: grey)[
+      #context [#(counter(page).get().first()) / #(counter(page).final().first())]
+    ]),
+    body,
+  )
+}
 
 // Small grey aside used under tables and figures.
 #let note(body) = block(above: 0.55em, text(size: 7.6pt, fill: grey, body))
@@ -99,7 +114,7 @@
 
 // ---------------------------------------------------------------- Slide 2
 #slide("1 · Question and approach", "Rent as a bundle of characteristics")[
-  A rental unit is a bundle of attributes — size, rooms, floor, age, heating, location — that the market prices as a whole.
+  A rental unit is a bundle of attributes (size, rooms, floor, age, heating, location) that the market prices as a whole.
   Hedonic regression recovers an implicit price for each attribute by regressing the observed rent on the bundle.
 
   #head2[What this is, and is not]
@@ -195,7 +210,7 @@
     ],
     [
       - Each extra m² adds about 0.9% to rent, holding room count fixed.
-      - One more room adds about 14%, even at the same total area — layout, not just size, is priced.
+      - One more room adds about 14%, even at the same total area. Layout, not just size, is priced.
       - Vilnius commands a 14% premium over Kaunas; Šiauliai and Panevėžys rent for 30–40% less.
     ],
   )
@@ -221,7 +236,7 @@
     [
       #head2[Heteroskedasticity]
       Breusch–Pagan: $chi^2 = 148.5$, $p < 0.001$.
-      #note[Residual variance is not constant — expected for rent levels. This is why HC1 robust standard errors are used throughout rather than the classical OLS SEs.]
+      #note[Residual variance is not constant, as expected for rent levels. This is why HC1 robust standard errors are used throughout rather than the classical OLS SEs.]
     ],
     [
       #head2[Multicollinearity]
@@ -235,7 +250,7 @@
   )
 
   #head2[Influential observations]
-  177 of 2,640 listings (6.7%) exceed the Cook's distance rule of thumb $4 \/ n$. Consistent with heavy-tailed rents at the top of the market (penthouses, short lets priced as long-term) rather than data errors.
+  177 of 2,640 listings (6.7%) exceed the Cook's distance rule of thumb $4 \/ n$. Consistent with heavy-tailed rents at the top of the market (penthouses and other high-end units) rather than data errors.
 ]
 
 // ---------------------------------------------------------------- Slide 10
@@ -247,12 +262,12 @@
 // ---------------------------------------------------------------- Slide 11
 #slide("5 · Diagnostics", "Residual diagnostics")[
   #fig("assets/resid.png", width: 13cm,
-    caption: [Mild heteroskedasticity and right-tail departure from normality — consistent with the Breusch–Pagan test.])
+    caption: [Mild heteroskedasticity and right-tail departure from normality, consistent with the Breusch–Pagan test.])
 ]
 
 // ---------------------------------------------------------------- Slide 12
 #slide("6 · Extension", "Zooming in: Vilnius by district")[
-  Refitting within Vilnius alone, replacing the city dummy with district fixed effects, raises fit from R² = 0.638 to R² = 0.762 (N = 1,393) — location within a city matters as much as the city itself.
+  Refitting within Vilnius alone, replacing the city dummy with district fixed effects, raises fit from R² = 0.638 to R² = 0.762 (N = 1,393). Location within a city matters as much as the city itself.
 
   #grid(
     columns: (1fr, 1fr),
@@ -300,12 +315,16 @@
 
 // ---------------------------------------------------------------- Slide 15
 #slide("7 · Decomposition", "Location adds more than everything else combined")[
-  - Size and room count alone explain 40.3 points of the 63.8-point R² — the bulk of the floor.
+  - Size and room count alone explain 40.3 points of the 63.8-point R²: the bulk of the floor.
   - Building age and floor position add only 2.7 points more; heating type adds 5.6 points.
-  - Location — which city a listing is in — adds 15.3 points on its own, more than age, floor and heating combined.
-  - Fit rises further to 76.2% within Vilnius alone once city is replaced by district — location keeps paying off at finer resolution.
+  - Location (which city a listing is in) adds 15.3 points on its own, more than age, floor and heating combined.
+  - Fit rises further to 76.2% within Vilnius alone once city is replaced by district. Location keeps paying off at finer resolution.
 
-  #note[Marginal R² from the sequential decomposition on the previous slide; district result from the Vilnius-only model.]
+  #note(if short [
+    Marginal R² from the sequential decomposition.
+  ] else [
+    Marginal R² from the sequential decomposition on the previous slide; district result from the Vilnius-only model.
+  ])
 ]
 
 // ---------------------------------------------------------------- Slide 16
@@ -320,7 +339,7 @@
     ],
     [
       - Vilnius: most of its +18% raw premium is genuine location, not bigger units.
-      - Šiauliai and Panevėžys: composition (smaller, older stock) explains roughly a fifth of their raw discount — the pure location penalty is smaller than it first looks.
+      - Šiauliai and Panevėžys: composition (smaller, older stock) explains roughly a fifth of their raw discount: the pure location penalty is smaller than it first looks.
     ],
   )
 ]
@@ -343,14 +362,14 @@
           ("Age", "−0.0037", "0.041"),
           ("Area", "−0.0039", "0.271"),
           ("Rooms", "0.048", "0.614"),
-          ("City/heating dummies", "—", "> 0.07"),
+          ("City/heating dummies", "n/a", "> 0.07"),
         ),
         size: 7.6pt,
       )
-      #note[Pseudo R² = 0.013, N = 2,640 — almost none of the discount variation is explained.]
+      #note[Pseudo R² = 0.013, N = 2,640. Almost none of the discount variation is explained.]
     ],
     [
-      - Units higher up a building are markedly less likely to be discounted — ground-and-low-floor listings carry most of the cuts.
+      - Units higher up a building are markedly less likely to be discounted, and ground-and-low-floor listings carry most of the cuts.
       - Otherwise, discounting looks close to orthogonal to what a hedonic model prices.
     ],
   )
@@ -372,9 +391,9 @@
     column-gutter: 0.9cm,
     [
       #head2[Takeaways]
-      - Size, room count, age, heating and — especially — location jointly explain 64% of rent variation (76% within Vilnius with districts).
-      - Location alone adds more explanatory power than age, floor and heating combined — and most of the raw city gap survives after controlling for unit size and age.
-      - An extra room is worth about €105/month at the sample mean — more than the floor-area line alone predicts: layout is priced on top of size.
+      - Size, room count, age, heating and, especially, location jointly explain 64% of rent variation (76% within Vilnius with districts).
+      - Location alone adds more explanatory power than age, floor and heating combined. Most of the raw city gap survives after controlling for unit size and age.
+      - An extra room is worth about €105/month at the sample mean, more than the floor-area line alone predicts: layout is priced on top of size.
       - Discounting behaviour is close to unpredictable from listing characteristics, except for floor position.
     ],
     [
