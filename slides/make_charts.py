@@ -161,7 +161,7 @@ savefig(fig, "coefplot")
 
 # 6 --------------------------------------------------------------- city & district effects
 city_order = ["Vilnius", "Klaipėda", "Palanga", "Panevėžys", "Šiauliai", "Other"]
-city_eff = [model.params[f"C(city_grp)[T.{c}]"] * 100 for c in city_order]
+city_eff = [(np.exp(model.params[f"C(city_grp)[T.{c}]"]) - 1) * 100 for c in city_order]
 
 DISTRICTS = ["Paupys", "Senamiestis", "Užupis", "Žvėrynas", "Šnipiškės", "Naujamiestis",
              "Baltupiai", "Pašilaičiai", "Pilaitė", "Karoliniškės", "Naujoji Vilnia"]
@@ -169,7 +169,7 @@ DISTRICTS = ["Paupys", "Senamiestis", "Užupis", "Žvėrynas", "Šnipiškės", "
 dist_rows = [(d, vil_model.params[f"C(district_grp)[T.{d}]"]) for d in DISTRICTS]
 dist_rows = sorted(dist_rows, key=lambda r: r[1])
 dist_labels = [r[0] for r in dist_rows]
-dist_eff = [r[1] * 100 for r in dist_rows]
+dist_eff = [(np.exp(r[1]) - 1) * 100 for r in dist_rows]
 
 fig, axes = plt.subplots(1, 2, figsize=(12, 5.2))
 ax = axes[0]

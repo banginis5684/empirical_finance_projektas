@@ -2,7 +2,7 @@
 
 This repository is the complete, reproducible project behind a slide deck analyzing **2,662 rental
 listings scraped from [aruodas.lt](https://www.aruodas.lt)**, Lithuania's largest real-estate portal, across
-7 cities. It was built as an Empirical Finance course project. This document explains what was done, why,
+6 cities plus smaller towns. It was built as an Empirical Finance course project. This document explains what was done, why,
 and, most importantly, **what every slide in the deck means**, so that someone who didn't build the
 analysis can still present it confidently or review it critically.
 
@@ -79,8 +79,8 @@ ln(Price_i) = β₀ + β₁·Area_i + β₂·Rooms_i + β₃·Age_i + β₄·Flo
 | Analysis | What it adds | Key number |
 |---|---|---|
 | Diagnostics | Is the model trustworthy? | VIF all ≤ 2.61 (no multicollinearity problem); 177/2,640 (6.7%) influential points by Cook's distance, consistent with luxury-unit outliers, not data errors |
-| Vilnius-district extension | Does location matter *within* a city, not just between cities? | Swapping the city dummy for Vilnius-district fixed effects raises R² to **0.762** (N = 1,393) |
-| Decomposition (new) | How much does each *block* of variables actually contribute? | Location alone adds **15.3 R² points**: more than age, floor, and heating *combined* (which add 2.7 + 5.6 = 8.3 points) |
+| Vilnius-district extension | Does location matter *within* a city, not just between cities? | Swapping the city dummy for Vilnius-district fixed effects raises R² from 0.649 to **0.762** on the same 1,393 listings |
+| Decomposition (new) | How much does each *block* of variables actually contribute? | Location, added last, still adds **15.3 R² points**: more than age, floor, and heating *combined* (which add 2.7 + 5.6 = 8.3 points) |
 | Secondary outcome: price cuts | What predicts a listing getting marked down? | Pseudo R² = 0.013: almost nothing does, except floor position (lower floors are discounted far more often) |
 
 ---
@@ -129,23 +129,23 @@ source.
 |---|---|---|---|
 | 1 | None | Title | A hedonic pricing analysis of 2,662 listings. Say this is cross-sectional (one scrape, one point in time), not a time series. |
 | 2 | 1 · Question and approach | Rent as a bundle of characteristics | Defines hedonic regression. **Say explicitly**: these are descriptive correlations, not causal effects. Flag this up front so it isn't a surprise on slide 19. |
-| 3 | 2 · The sample | 2,662 listings, 7 cities | Headline stats (mean rent €699, mean area 49.5 m², mean year built 1988) plus the city/heating breakdown. Mention the N drops from 2,662 to 2,640 for regression (22 implausible rows removed). |
+| 3 | 2 · The sample | 2,662 listings, 6 cities plus smaller towns | Headline stats (mean rent €699, mean area 49.5 m², mean year built 1988) plus the city/heating breakdown. The city table uses all 2,662 listings and the heating table the 2,640 of the regression sample. Mention the N drops from 2,662 to 2,640 (22 implausible rows removed). |
 | 4 | 3 · Model | Model | The regression equation, rendered properly (not as plain-text underscores). Walk through each term once. This is the one slide worth slowing down on, since everything else refers back to it. |
 | 5 | 3 · Model | Why model rent in logs? | Justifies the log transform: raw rents are right-skewed (a few very expensive units pull the tail), logs are close to symmetric. This is *why* coefficients are read as % effects, not € effects. |
-| 6 | 4 · Results | Main regression | The core results table. **Three numbers to memorize:** +0.9%/m², +14%/room, Vilnius +14% vs. Kaunas. Floor ratio is *not* significant here (p = 0.226), although it becomes very significant later (slide 17/18) for a different outcome (price cuts, not price level). |
+| 6 | 4 · Results | Main regression | The core results table. **Three numbers to memorize:** +0.9%/m², +15%/room, Vilnius +15% vs. Kaunas. Floor ratio is *not* significant here (p = 0.226), although it becomes very significant later (slide 17/18) for a different outcome (price cuts, not price level). |
 | 7 | 4 · Results | Rent vs. size and room count | The two strongest raw bivariate relationships, visually. This is a sanity check that the regression's two biggest coefficients aren't spurious. |
 | 8 | 4 · Results | Coefficients, visually | Same table as slide 6, as a dot-and-whisker (95% CI) plot. It is easier to scan which effects are precisely estimated (narrow CI) vs. noisy (floor ratio, Elektra heating, both straddle zero). |
 | 9 | 5 · Diagnostics | Is the model well specified? | Three checks: heteroskedasticity (why HC1 SEs are used), multicollinearity (VIF: area/rooms correlate but not dangerously), influential points (177 high-leverage listings, explained as luxury-unit outliers). |
 | 10 | 5 · Diagnostics | How well does the model fit? | Predicted vs. actual scatter. Points hugging the 45° line = good fit; the R² = 0.638 number from slide 6 made visual. |
 | 11 | 5 · Diagnostics | Residual diagnostics | Residuals-vs-fitted + Q-Q plot. It shows the mild heteroskedasticity and right-tail non-normality the Breusch–Pagan test flagged. This is "showing your work" for why HC1 SEs were the right call. |
-| 12 | 6 · Extension | Zooming in: Vilnius by district | Swap city dummies for Vilnius-district fixed effects → R² jumps to 0.762. **Paupys (+44%)** and **Senamiestis/Old Town (+34%)** are the standout premium districts; **Naujoji Vilnia (−15%)** the standout discount. Message: location matters *within* a city just as much as *between* cities. |
+| 12 | 6 · Extension | Zooming in: Vilnius by district | Swap city dummies for Vilnius-district fixed effects → R² rises from 0.649 to 0.762 on the same listings. **Paupys (+55%)** and **Senamiestis/Old Town (+40%)** are the standout premium districts; **Naujoji Vilnia (−14%)** the standout discount. Message: location keeps paying off at finer resolution. |
 | 13 | 6 · Extension | Location effects, visually | City effects and Vilnius-district effects side by side as bar charts, a visual summary of slides 6 and 12's location coefficients. |
 | 14 | 7 · Decomposition | Where does the fit come from? | **This is the most important new analytical result in the deck.** A sequential/nested R² breakdown: Size & layout alone → 40.3 points of R²; + age/floor → 42.9 (+2.7); + heating → 48.5 (+5.6); + location → 63.8 (+15.3). Location is the single biggest contributor after raw size. |
-| 15 | 7 · Decomposition | Location adds more than everything else combined | States the headline plainly: location's 15.3-point contribution beats age + floor + heating's combined 8.3 points. Also ties in the Vilnius-district result (R² → 0.762) as evidence that location keeps paying off at finer resolution. |
+| 15 | 7 · Decomposition | Location adds more than age, floor and heating | States the headline plainly: added last, location still adds 15.3 points, more than age + floor + heating's combined 8.3. Also ties in the district result (R² 0.649 → 0.762). |
 | 16 | 7 · Decomposition | Is the city gap real, or just composition? | A subtler point: is Vilnius more expensive because it's *actually* a better location, or just because Vilnius listings happen to be bigger/newer? Answer: for Vilnius, almost entirely genuine location (raw +17.9% gap vs. Kaunas, adjusted +15.5%, so composition explains only ~2 points). For Šiauliai/Panevėžys, roughly a fifth of their discount is just smaller/older stock, not a "location penalty" as such. |
 | 17 | 8 · Secondary outcome | Who gets a price cut? | Switches from predicting *rent level* to predicting *whether a listing gets marked down* (24.9% of listings do, logit model). Pseudo R² is tiny (0.013). Almost nothing in the hedonic model predicts discounting, **except floor ratio**, which is strongly significant here even though it wasn't for rent level. |
 | 18 | 8 · Secondary outcome | Price cuts by floor position | Visual version of slide 17's one real finding: ground/low floors get discounted far more often than top floors. |
-| 19 | 9 · Limitations and takeaways | What this is worth, and what it is not | **Read this slide out loud, don't rush it.** Takeaways: location > everything else combined; an extra room ≈ +€105/month; discounting is basically unpredictable except by floor. Limitations: not causal (§ below), omitted variables (renovation quality, exact micro-location, furnishings, all priced by the market and none observed here), single snapshot (no panel structure, so no time-on-market or landlord fixed effects possible). |
+| 19 | 9 · Limitations and takeaways | What this is worth, and what it is not | **Read this slide out loud, don't rush it.** Takeaways: location adds more than age, floor and heating combined; an extra room ≈ +€105/month; discounting is basically unpredictable except by floor. Limitations: not causal (§ below), omitted variables (renovation quality, exact micro-location, furnishings, all priced by the market and none observed here), single snapshot (no panel structure, so no time-on-market or landlord fixed effects possible). |
 | 20 | None | Thank you | Closing slide. |
 
 ### If you only have 10 minutes

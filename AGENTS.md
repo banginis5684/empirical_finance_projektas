@@ -5,7 +5,7 @@
 **Branch:** main
 
 ## OVERVIEW
-Hedonic pricing study of 2,662 aruodas.lt rental listings (7 cities): Python (pandas/statsmodels) regression pipeline plus a 20-slide Typst deck styled on the VU wildcat theme. Everything regenerates from one hand-pasted text dump, with no scraped or hand-edited data.
+Hedonic pricing study of 2,662 aruodas.lt rental listings (6 cities plus smaller towns): Python (pandas/statsmodels) regression pipeline plus a 20-slide Typst deck styled on the VU wildcat theme. Everything regenerates from one hand-pasted text dump, with no scraped or hand-edited data.
 
 ## STRUCTURE
 ```
@@ -55,7 +55,7 @@ No package index, no exports between modules: the pipeline is file-based.
 - **Cleaning block is duplicated on purpose** (self-contained renderers): `year_built 1800..2026`, `price_eur 100..5000`, `rooms <= 6`, `dropna`, `age = 2026 - year_built` appears in `analysis.py`, `decomposition.py`, `slides/make_charts.py`. Editing one means editing all three or results diverge silently.
 - `age` uses a **hardcoded reference year 2026**; there is no "today" call anywhere.
 - `price_change_dir` is stored ASCII-normalized: `"padidejo"` / `"sumazejo"` / `""`. The logit target is `== "sumazejo"`. Do not reintroduce diacritics.
-- Reference categories are implicit (statsmodels alphabetical): **Centrinis** heating, **Kaunas** city. Deck language treats coefficients as log points and says so on the Model slide; `decomposition.py` euro effects use `exp(beta) - 1`.
+- Reference categories are implicit (statsmodels alphabetical): **Centrinis** heating, **Kaunas** city, **Antakalnis** district. Every percentage figure in the deck and README is `exp(beta) - 1` against its stated baseline; raw coefficients appear only in tables whose column is `Coef.`.
 - All models use `cov_type="HC1"`; logit uses `.fit(disp=0)`.
 - JSON outputs: `json.dump(..., indent=2, ensure_ascii=False)`.
 - Figure style is monochrome by contract: serif + `mathtext.fontset="cm"`, black/gray `#555555`, grid `#dddddd`, DPI 220, no top/right spines. Charts carry no titles duplicated by the deck.

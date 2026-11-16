@@ -40,7 +40,7 @@
   "Rent as a bundle of characteristics",
   "Main regression",
   "Zooming in: Vilnius by district",
-  "Location adds more than everything else combined",
+  "Location adds more than age, floor and heating",
   "Who gets a price cut?",
   "What this is worth, and what it is not",
 )
@@ -107,7 +107,7 @@
       #v(0.3cm)
       #text(size: 9.5pt, fill: vu-20)[A hedonic pricing analysis of 2,662 rental listings from aruodas.lt, Lithuania's largest real-estate portal.]
       #v(0.45cm)
-      #text(size: 8.5pt, fill: white)[Data collected November 2026 · 7 cities · cross-sectional, single snapshot]
+      #text(size: 8.5pt, fill: white)[Data collected November 2026 · 6 cities plus smaller towns · cross-sectional, single snapshot]
     ]
   ]
 ]
@@ -124,7 +124,7 @@
 ]
 
 // ---------------------------------------------------------------- Slide 3
-#slide("2 · The sample", "2,662 listings, 7 cities")[
+#slide("2 · The sample", "2,662 listings, 6 cities plus smaller towns")[
   #grid(
     columns: (1fr, 1fr, 1fr, 1fr),
     column-gutter: 0.5cm,
@@ -138,7 +138,7 @@
     columns: (1fr, 1fr),
     column-gutter: 0.9cm,
     [
-      #head2[By city]
+      #head2[By city (full sample)]
       #vtable(
         (1.5fr, 0.8fr),
         ("City", "N"),
@@ -149,7 +149,7 @@
       )
     ],
     [
-      #head2[Primary heating]
+      #head2[Primary heating (regression sample)]
       #vtable(
         (1.5fr, 0.8fr),
         ("Type", "N"),
@@ -210,8 +210,8 @@
     ],
     [
       - Each extra m² adds about 0.9% to rent, holding room count fixed.
-      - One more room adds about 14%, even at the same total area. Layout, not just size, is priced.
-      - Vilnius commands a 14% premium over Kaunas; Šiauliai and Panevėžys rent for 30–40% less.
+      - One more room adds about 15%, even at the same total area. Layout, not just size, is priced.
+      - Vilnius commands a 15% premium over Kaunas; Šiauliai and Panevėžys rent for 28–33% less.
     ],
   )
 ]
@@ -267,7 +267,7 @@
 
 // ---------------------------------------------------------------- Slide 12
 #slide("6 · Extension", "Zooming in: Vilnius by district")[
-  Refitting within Vilnius alone, replacing the city dummy with district fixed effects, raises fit from R² = 0.638 to R² = 0.762 (N = 1,393). Location within a city matters as much as the city itself.
+  Refitting within Vilnius alone and replacing the city dummy with district fixed effects raises R² from 0.649 to 0.762 on the same 1,393 listings.
 
   #grid(
     columns: (1fr, 1fr),
@@ -278,8 +278,8 @@
         (1.7fr, 0.8fr, 0.6fr),
         ("District", "Effect", "p"),
         (
-          ("Paupys", "+44.0%", "<0.001"), ("Senamiestis (Old Town)", "+33.9%", "<0.001"),
-          ("Užupis", "+29.3%", "<0.001"), ("Naujamiestis", "+17.0%", "<0.001"),
+          ("Paupys", "+55.2%", "<0.001"), ("Senamiestis (Old Town)", "+40.4%", "<0.001"),
+          ("Užupis", "+34.0%", "<0.001"), ("Naujamiestis", "+18.5%", "<0.001"),
         ),
       )
     ],
@@ -289,14 +289,14 @@
         (1.7fr, 0.8fr, 0.6fr),
         ("District", "Effect", "p"),
         (
-          ("Naujoji Vilnia", "−14.9%", "<0.001"), ("Karoliniškės", "−14.0%", "0.009"),
-          ("Pašilaičiai", "−12.9%", "<0.001"), ("Pilaitė", "−10.7%", "0.001"),
+          ("Naujoji Vilnia", "−13.8%", "<0.001"), ("Karoliniškės", "−13.1%", "0.009"),
+          ("Pašilaičiai", "−12.1%", "<0.001"), ("Pilaitė", "−10.1%", "0.001"),
         ),
       )
     ],
   )
 
-  #note[Area, rooms, age and heating coefficients are essentially unchanged from the city-level model once district is controlled for.]
+  #note[Area and room effects are essentially unchanged. The heating premiums halve and age matters about three times as much. Exact % effects, $exp(beta) - 1$, against Antakalnis.]
 ]
 
 // ---------------------------------------------------------------- Slide 13
@@ -314,11 +314,11 @@
 ]
 
 // ---------------------------------------------------------------- Slide 15
-#slide("7 · Decomposition", "Location adds more than everything else combined")[
+#slide("7 · Decomposition", "Location adds more than age, floor and heating")[
   - Size and room count alone explain 40.3 points of the 63.8-point R²: the bulk of the floor.
   - Building age and floor position add only 2.7 points more; heating type adds 5.6 points.
-  - Location (which city a listing is in) adds 15.3 points on its own, more than age, floor and heating combined.
-  - Fit rises further to 76.2% within Vilnius alone once city is replaced by district. Location keeps paying off at finer resolution.
+  - Added last, location still adds 15.3 points, more than age, floor and heating combined.
+  - Within Vilnius, a district model reaches R² = 0.762, up from 0.649 without districts.
 
   #note(if short [
     Marginal R² from the sequential decomposition.
@@ -392,7 +392,7 @@
     [
       #head2[Takeaways]
       - Size, room count, age, heating and, especially, location jointly explain 64% of rent variation (76% within Vilnius with districts).
-      - Location alone adds more explanatory power than age, floor and heating combined. Most of the raw city gap survives after controlling for unit size and age.
+      - Location adds more explanatory power than age, floor and heating combined. Most of the raw city gap survives after controlling for unit size and age.
       - An extra room is worth about €105/month at the sample mean, more than the floor-area line alone predicts: layout is priced on top of size.
       - Discounting behaviour is close to unpredictable from listing characteristics, except for floor position.
     ],
