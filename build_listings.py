@@ -41,8 +41,8 @@ from pathlib import Path
 
 import pandas as pd
 
-SRC = Path(r"S:\Projects\click_read\alldataaruodas.txt")
-OUT = Path(r"S:\Projects\click_read\listings.xlsx")
+SRC = Path(__file__).with_name("alldataaruodas.txt")
+OUT = Path(__file__).with_name("listings.xlsx")
 
 POSTED_RE = re.compile(r"^Prieš\s+(.+)$")
 ROOMS_RE = re.compile(r"^(\d+)\s*k\.$")
