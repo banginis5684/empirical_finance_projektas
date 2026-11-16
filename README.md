@@ -25,16 +25,14 @@ analysis can still present it confidently or review it critically.
 ├── analysis_results.json           Numeric output of analysis.py (every coefficient, SE, p-value, diagnostic)
 ├── decomposition.py                Extra analysis: sequential R² decomposition, city-gap decomposition, € effects
 ├── decomposition_results.json      Numeric output of decomposition.py
+├── pyproject.toml                  Project metadata and Python dependencies (uv)
+├── uv.lock                        Locked dependency set, committed
 └── slides/
-    ├── deck.html                   The main deck as a self-contained, keyboard-navigable HTML slideshow
-    ├── build_deck.js               Generates Rental_Price_Hedonics.pptx (pptxgenjs script)
-    ├── render_equations.py         Renders every LaTeX equation image used in the pptx (matplotlib mathtext)
+    ├── deck.typ                    The deck source (Typst, 20 slides, 16:9, no packages)
+    ├── deck.pdf                    The built deck — this is the artifact to present
     ├── make_charts.py              Renders the 7 "visual evidence" charts for the main deck
     ├── decomposition_charts.py     Renders the 2 decomposition charts (sequential R², city-gap)
-    ├── apply_theme.js              Small helper: writes the monochrome theme colors into a pptxgenjs-built .pptx
-    ├── package.json / package-lock.json   Node dependency pin (pptxgenjs)
-    ├── assets/*.png                All chart and equation images used by the deck
-    └── Rental_Price_Hedonics.pptx   The deck — 20 slides
+    └── assets/                     Chart images plus the VU facets and mark used on the title slides
 ```
 
 **Everything regenerates from `alldataaruodas.txt` alone.** Nothing here is hand-edited data — every
@@ -90,36 +88,40 @@ ln(Price_i) = β₀ + β₁·Area_i + β₂·Rooms_i + β₃·Age_i + β₄·Flo
 ## 4. How to rebuild everything from scratch
 
 ```bash
+# 0. Create the environment (uv 0.10+, Python 3.12+)
+uv sync                             # builds .venv from uv.lock, exact versions
+
 # 1. Rebuild the dataset from the raw scrape
-python build_listings.py            # → listings.xlsx
+uv run python build_listings.py     # → listings.xlsx
 
 # 2. Run the regressions
-python analysis.py                  # → analysis_results.json, prints full regression summaries
-python decomposition.py             # → decomposition_results.json
+uv run python analysis.py           # → analysis_results.json, prints full regression summaries
+uv run python decomposition.py      # → decomposition_results.json
 
-# 3. Render chart & equation images (run from inside slides/)
+# 3. Render chart images (run from inside slides/)
 cd slides
-python render_equations.py          # → assets/eq_main.png, eq_vars.png, eq_logit.png
-python make_charts.py               # → assets/hist_price.png, scatter_area_rooms.png, fit.png, resid.png,
+uv run python make_charts.py        # → assets/hist_price.png, scatter_area_rooms.png, fit.png, resid.png,
                                      #   coefplot.png, bars_city_district.png, pricecut_floor.png
-python decomposition_charts.py      # → assets/seq_r2.png, city_gap_decomp.png
+uv run python decomposition_charts.py   # → assets/seq_r2.png, city_gap_decomp.png
 
-# 4. Build the PowerPoint deck (needs Node.js)
-npm install                         # installs pptxgenjs into slides/node_modules
-node build_deck.js                  # → Rental_Price_Hedonics.pptx
+# 4. Build the deck (needs Typst 0.15 or newer, nothing else)
+typst compile deck.typ              # → deck.pdf
 ```
 
-`deck.html` is static — just open it in a browser (it loads MathJax from a CDN for the LaTeX equations and
-needs the `assets/` folder alongside it). Arrow keys / swipe to navigate.
+`deck.pdf` is the presentation. Equations are typeset by Typst itself, so there are no equation images to
+rebuild, and the page count, margins and type are fixed by `slides/deck.typ` alone.
 
-Required Python packages: `pandas`, `numpy`, `statsmodels`, `matplotlib`, `scipy`, `openpyxl`, `Pillow`.
+Python dependencies are uv-managed: `pyproject.toml` declares them, `uv.lock` pins the resolution, and
+`uv sync` builds `.venv`. `uv run python ...` works from the repo root and from `slides/`. The deck needs no
+Python packages and no npm packages.
 
 ---
 
-## 5. Slide-by-slide guide: `Rental_Price_Hedonics.pptx` (main deck, 20 slides)
+## 5. Slide-by-slide guide: `slides/deck.pdf` (main deck, 20 slides)
 
-`deck.html` and the `.pptx` contain the same 20 slides in the same order — pick whichever format suits the
-room (HTML for a laptop/browser, `.pptx` for PowerPoint/Keynote).
+`slides/deck.typ` compiles to that 20-page PDF, styled after the Vilnius University wildcat theme: burgundy
+titles, a gold rule, and a monochrome figure style. The PDF is the presentation artifact — open it in any
+viewer, or present straight from it.
 
 | # | Section | Slide | What it means / how to present it |
 |---|---|---|---|
@@ -178,9 +180,9 @@ type *combined*. That's the one number worth leading with if someone only rememb
 
 ## 7. Honest caveats about this repository
 
-- **No visual render QA was possible** on the machine this was built on (no LibreOffice available) — the
-  `.pptx` files were validated for file-format correctness and checked for text-content accuracy, but never
-  visually rendered and eyeballed before being handed off. Open both decks once yourself before presenting.
+- The deck is a Typst source (`slides/deck.typ`) that rebuilds deterministically to `deck.pdf` on any machine
+  with Typst 0.15 or newer. All 20 pages were rendered to images and checked for layout overflow before
+  hand-off. There is no PowerPoint export: the PDF is the deck.
 - The dataset is a **single scrape** (November 2026) of **currently-live listings** — not a random sample of
   the rental market, and not a time series. Units that rent instantly never appear.
 - `alldataaruodas.txt` was manually copy-pasted from aruodas.lt, not scraped via an API — this was a
