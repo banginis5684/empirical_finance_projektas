@@ -1,0 +1,17 @@
+[project]
+name = "empirical-finance-projektas"
+version = "0.1.0"
+description = "Hedonic pricing of aruodas.lt rental listings, with a Typst deck"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=3.1,<4",
+    "numpy>=2.5,<3",
+    "statsmodels>=0.15,<0.16",
+    "matplotlib>=3.11,<4",
+    "scipy>=1.18,<2",
+    "openpyxl>=3.1,<4",
+    "Pillow>=13,<14",
+]
+
+[tool.uv]
+package = false

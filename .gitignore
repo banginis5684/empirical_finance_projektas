@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 ~$*.pptx
 .DS_Store
+.venv/
+.scratch/
