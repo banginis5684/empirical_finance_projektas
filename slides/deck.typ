@@ -37,7 +37,7 @@
 // keeps only the slides a 10-minute talk needs; the default build is all 20.
 #let short = sys.inputs.at("short", default: "false") == "true"
 #let SHORT_KEEP = (
-  "Rent as a bundle of characteristics",
+  "Question, evidence, gap",
   "Main regression",
   "Zooming in: Vilnius by district",
   "Location adds more than age, floor and heating",
@@ -117,14 +117,18 @@
 ]
 
 // ---------------------------------------------------------------- Slide 2
-#slide("1 · Question and approach", "Rent as a bundle of characteristics")[
-  A rental unit is a bundle of attributes (size, rooms, floor, age, heating, location) that the market prices as a whole.
-  Hedonic regression recovers an implicit price for each attribute by regressing the observed rent on the bundle.
+#slide("1 · Question and approach", "Question, evidence, gap")[
+  #text(fill: vu-dark, weight: "bold")[Research question.] How much does each attribute of a flat add to its monthly asking rent, and how much of the total is location?
 
-  #head2[What this is, and is not]
-  - This is a cross-sectional, observational dataset: one scrape, one point in time, no randomisation and no repeated observations per unit.
-  - The results below are descriptive correlations, not causal effects. On the ladder of research designs, this sits near the bottom rung.
-  - The question we can answer: which characteristics move with rent, and by how much, after holding the others fixed.
+  #head2[Lithuanian evidence]
+  - Vilnius sale prices: condition is the main driver, and space matters more in the residential districts than in the centre (Raslanas et al., 2006).
+  - Kaunas sale prices: hedonic models find location matters, while heritage status does not raise the price (Rudokas et al., 2019).
+  - Vilnius rents: GDP per capita, wages and internal migration explain 80% of the variation in 2006–2019 (Laurinavičius et al., 2022).
+
+  #head2[Gap and contribution]
+  Hedonic work for Lithuania uses sale prices, and the rent evidence is aggregate. We know of no listing-level decomposition of asking rents across cities and districts, and no evidence on price cuts. This deck provides both on 2,662 listings.
+
+  #note[Descriptive correlations from one cross-section, not causal effects. doi.org/10.3846/1648715X.2006.9637544 · doi.org/10.5755/j01.erem.75.2.22823 · doi.org/10.3846/ijspm.2021.15961]
 ]
 
 // ---------------------------------------------------------------- Slide 3

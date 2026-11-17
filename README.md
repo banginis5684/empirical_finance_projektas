@@ -128,7 +128,7 @@ source.
 | # | Section | Slide | What it means / how to present it |
 |---|---|---|---|
 | 1 | None | Title | A hedonic pricing analysis of 2,662 listings. Say this is cross-sectional (one scrape, one point in time), not a time series. |
-| 2 | 1 · Question and approach | Rent as a bundle of characteristics | Defines hedonic regression. **Say explicitly**: these are descriptive correlations, not causal effects. Flag this up front so it isn't a surprise on slide 19. |
+| 2 | 1 · Question and approach | Question, evidence, gap | States the research question, the three Lithuanian studies it builds on (Raslanas et al. 2006; Rudokas et al. 2019; Laurinavičius et al. 2022), the gap, and the contribution. Say explicitly that these are descriptive correlations, not causal effects. |
 | 3 | 2 · The sample | 2,662 listings, 6 cities plus smaller towns | Headline stats (mean rent €699, mean area 49.5 m², mean year built 1988) plus the city/heating breakdown. The city table uses all 2,662 listings and the heating table the 2,640 of the regression sample. Mention the N drops from 2,662 to 2,640 (22 implausible rows removed). |
 | 4 | 3 · Model | Model | The regression equation, rendered properly (not as plain-text underscores). Walk through each term once. This is the one slide worth slowing down on, since everything else refers back to it. |
 | 5 | 3 · Model | Why model rent in logs? | Justifies the log transform: raw rents are right-skewed (a few very expensive units pull the tail), logs are close to symmetric. This is *why* coefficients are read as % effects, not € effects. |
@@ -157,6 +157,8 @@ short build just drops pages.
 
 In the full deck the same path is slides **1, 2, 6, 12, 14 (or 15), 17, 19**: title, framing, main results,
 the district extension, the decomposition headline, the price-cut finding, and limitations.
+
+**Lithuanian references cited on slide 2.** Raslanas, S., Šteinbergas, T., and Tupenaite, L. (2006). Research on the prices of flats in the South East London and Vilnius. *International Journal of Strategic Property Management* 10(1), 51–63. doi:10.3846/1648715X.2006.9637544. Rudokas, K., Landauskas, M., Viliūnienė, O., and Gražulevičiūtė-Vileniškė, I. (2019). Hedonic analysis of housing prices and development in Kaunas: heritage aspect. *Environmental Research, Engineering and Management* 75(2), 15–27. doi:10.5755/j01.erem.75.2.22823. Laurinavičius, A., Laurinavičius, A., and Laurinavičius, A. (2022). Macroeconomic variables influencing housing prices in Vilnius. *International Journal of Strategic Property Management* 26(1), 24–34. doi:10.3846/ijspm.2021.15961.
 
 ---
 
