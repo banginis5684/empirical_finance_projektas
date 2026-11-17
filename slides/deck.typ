@@ -70,12 +70,12 @@
 #let head2(body) = block(above: 0.7em, below: 0.25em, text(font: display, size: 10pt, weight: "bold", fill: vu-dark)[#body])
 
 // Table: burgundy header, zebra rows, first column left, numbers right.
-#let vtable(columns, headers, rows, size: 8.2pt) = table(
+#let vtable(columns, headers, rows, size: 8.2pt, aligns: none) = table(
   columns: columns,
   inset: (x: 5pt, y: 2.6pt),
   stroke: none,
   fill: (x, y) => if y == 0 { vu } else if calc.odd(y) { vu-10 } else { white },
-  align: (x, y) => if x == 0 { left } else { right },
+  align: (x, y) => if aligns == none { if x == 0 { left } else { right } } else { aligns.at(x) },
   table.header(..headers.map(h => text(fill: white, weight: "bold", size: size)[#h])),
   ..rows.map(r => r.map(c => text(size: size)[#c])).flatten(),
 )
@@ -225,9 +225,25 @@
 ]
 
 // ---------------------------------------------------------------- Slide 7
-#slide("4 · Results", "Rent vs. size and room count")[
-  #fig("assets/scatter_area_rooms.png", width: 13cm,
-    caption: [The two strongest bivariate relationships the main model estimates jointly.])
+#slide("4 · Results", "Robustness checks")[
+  #vtable(
+    (1.5fr, 2.9fr),
+    ("Check", "Result"),
+    (
+      ("Area in logs", "R² 0.638 to 0.652, Vilnius 15.5% to 16.4%"),
+      ("Street-clustered SEs", "Vilnius SE 0.018 to 0.028, p still < 0.001"),
+      ("Trimmed price sample", "area 0.0077 to 0.0106, rooms 0.121 to 0.156"),
+      ("Duplicate ads dropped", "area 0.0091, rooms 0.140, Vilnius 0.144"),
+      ("Influential rows dropped", "R² 0.638 to 0.728, coefficients within 5%"),
+    ),
+    size: 8pt,
+    aligns: (left, left),
+  )
+  #note[The last row drops the 177 listings above the Cook's distance rule, which is 6.7% of the sample.]
+
+  #v(0.15cm)
+  #head2[What can overturn this]
+  Two things: measured renovation quality that absorbs the location premium, and a gap between asking rents and signed rents.
 ]
 
 // ---------------------------------------------------------------- Slide 8
