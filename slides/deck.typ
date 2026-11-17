@@ -34,7 +34,7 @@
 #show math.equation.where(block: true): it => align(center, it)
 
 // Build toggle: `typst compile deck.typ --input short=true deck-short.pdf`
-// keeps only the slides a 10-minute talk needs; the default build is all 20.
+// keeps only the slides a 10-minute talk needs; the default build is all 21.
 #let short = sys.inputs.at("short", default: "false") == "true"
 #let SHORT_KEEP = (
   "Question, evidence, gap",
@@ -225,6 +225,12 @@
 ]
 
 // ---------------------------------------------------------------- Slide 7
+#slide("4 · Results", "Rent vs. size and room count")[
+  #fig("assets/scatter_area_rooms.png", width: 13cm,
+    caption: [The two strongest bivariate relationships the main model estimates jointly.])
+]
+
+// ---------------------------------------------------------------- Slide 8
 #slide("4 · Results", "Robustness checks")[
   #vtable(
     (1.5fr, 2.9fr),
@@ -246,13 +252,13 @@
   Two things: measured renovation quality that absorbs the location premium, and a gap between asking rents and signed rents.
 ]
 
-// ---------------------------------------------------------------- Slide 8
+// ---------------------------------------------------------------- Slide 9
 #slide("4 · Results", "Coefficients, visually")[
   #fig("assets/coefplot.png", height: 5.3cm,
     caption: [Same estimates as the results table, shown as point estimates with 95% confidence intervals.])
 ]
 
-// ---------------------------------------------------------------- Slide 9
+// ---------------------------------------------------------------- Slide 10
 #slide("5 · Diagnostics", "Is the model well specified?")[
   #grid(
     columns: (1fr, 1fr),
@@ -277,19 +283,19 @@
   177 of 2,640 listings (6.7%) exceed the Cook's distance rule of thumb $4 \/ n$. Consistent with heavy-tailed rents at the top of the market (penthouses and other high-end units) rather than data errors.
 ]
 
-// ---------------------------------------------------------------- Slide 10
+// ---------------------------------------------------------------- Slide 11
 #slide("5 · Diagnostics", "How well does the model fit?")[
   #fig("assets/fit.png", height: 5.3cm,
     caption: [Predicted vs. actual log-rent; points on the dashed 45° line are predicted exactly.])
 ]
 
-// ---------------------------------------------------------------- Slide 11
+// ---------------------------------------------------------------- Slide 12
 #slide("5 · Diagnostics", "Residual diagnostics")[
   #fig("assets/resid.png", width: 13cm,
     caption: [Mild heteroskedasticity and right-tail departure from normality, consistent with the Breusch–Pagan test.])
 ]
 
-// ---------------------------------------------------------------- Slide 12
+// ---------------------------------------------------------------- Slide 13
 #slide("6 · Extension", "Zooming in: Vilnius by district")[
   Refitting within Vilnius alone and replacing the city dummy with district fixed effects raises R² from 0.649 to 0.762 on the same 1,393 listings.
 
@@ -323,13 +329,13 @@
   #note[Area and room effects are essentially unchanged. The heating premiums halve and age matters about three times as much. Exact % effects, $exp(beta) - 1$, against Antakalnis.]
 ]
 
-// ---------------------------------------------------------------- Slide 13
+// ---------------------------------------------------------------- Slide 14
 #slide("6 · Extension", "Location effects, visually")[
   #fig("assets/bars_city_district.png", width: 13cm,
     caption: [City effects (left) and Vilnius-district effects (right), from the two regressions.])
 ]
 
-// ---------------------------------------------------------------- Slide 14
+// ---------------------------------------------------------------- Slide 15
 #slide("7 · Decomposition", "Where does the fit come from?")[
   R² = 0.638 is one number for four very different kinds of information. Adding the blocks one at a time, in the order a landlord would reason about a unit, shows what each is worth.
 
@@ -337,7 +343,7 @@
   #note[Each model nests the previous one; the marginal R² is the gain from adding that block.]
 ]
 
-// ---------------------------------------------------------------- Slide 15
+// ---------------------------------------------------------------- Slide 16
 #slide("7 · Decomposition", "Location adds more than age, floor and heating")[
   - Size and room count alone explain 40.3 points of the 63.8-point R²: the bulk of the floor.
   - Building age and floor position add only 2.7 points more; heating type adds 5.6 points.
@@ -351,7 +357,7 @@
   ])
 ]
 
-// ---------------------------------------------------------------- Slide 16
+// ---------------------------------------------------------------- Slide 17
 #slide("7 · Decomposition", "Is the city gap real, or just composition?")[
   A city could rent for less simply because its units are smaller or older, not because location itself is cheaper. Comparing the raw rent gap to the gap after holding size, age and heating fixed separates the two.
 
@@ -368,7 +374,7 @@
   )
 ]
 
-// ---------------------------------------------------------------- Slide 17
+// ---------------------------------------------------------------- Slide 18
 #slide("8 · Secondary outcome", "Who gets a price cut?")[
   24.9% of listings show a price marked down from an earlier asking price. A logit on the same characteristics asks whether the same bundle predicts a cut:
 
@@ -399,13 +405,13 @@
   )
 ]
 
-// ---------------------------------------------------------------- Slide 18
+// ---------------------------------------------------------------- Slide 19
 #slide("8 · Secondary outcome", "Price cuts by floor position")[
   #fig("assets/pricecut_floor.png", width: 9.2cm,
     caption: [The one characteristic that robustly predicts a price cut: higher floors are discounted less often.])
 ]
 
-// ---------------------------------------------------------------- Slide 19
+// ---------------------------------------------------------------- Slide 20
 #slide("9 · Limitations and takeaways", "What this is worth, and what it is not")[
   #set text(size: 8.7pt)
   #set par(leading: 0.5em)
@@ -429,7 +435,7 @@
   )
 ]
 
-// ---------------------------------------------------------------- Slide 20
+// ---------------------------------------------------------------- Slide 21
 #page(
   margin: 0pt,
   background: image("assets/facets.svg", width: 100%, height: 100%),

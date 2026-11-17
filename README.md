@@ -28,7 +28,7 @@ analysis can still present it confidently or review it critically.
 ├── pyproject.toml                  Project metadata and Python dependencies (uv)
 ├── uv.lock                        Locked dependency set, committed
 └── slides/
-    ├── deck.typ                    The deck source (Typst, 20 slides, 16:9, no packages)
+    ├── deck.typ                    The deck source (Typst, 21 slides, 16:9, no packages)
     ├── deck.pdf                    The built deck: this is the artifact to present
     ├── make_charts.py              Renders the 7 "visual evidence" charts for the main deck
     ├── decomposition_charts.py     Renders the 2 decomposition charts (sequential R², city-gap)
@@ -117,9 +117,9 @@ Python packages and no npm packages.
 
 ---
 
-## 5. Slide-by-slide guide: `slides/deck.pdf` (main deck, 20 slides)
+## 5. Slide-by-slide guide: `slides/deck.pdf` (main deck, 21 slides)
 
-`slides/deck.typ` compiles to that 20-page PDF, styled after the Vilnius University wildcat theme: burgundy
+`slides/deck.typ` compiles to that 21-page PDF, styled after the Vilnius University wildcat theme: burgundy
 titles, a gold rule, and a monochrome figure style. The PDF is the presentation artifact. Open it in any
 viewer, or present straight from it. A second build keeps only the slides a short talk needs:
 `typst compile deck.typ deck-short.pdf --input short=true` gives an 8-page `deck-short.pdf` from the same
@@ -132,21 +132,22 @@ source.
 | 3 | 2 · The sample | 2,662 listings, 6 cities plus smaller towns | Headline stats (mean rent €699, mean area 49.5 m², mean year built 1988) plus the city/heating breakdown. The city table uses all 2,662 listings and the heating table the 2,640 of the regression sample. Mention the N drops from 2,662 to 2,640 (22 implausible rows removed). |
 | 4 | 3 · Model | Model | The regression equation, rendered properly (not as plain-text underscores). Walk through each term once. This is the one slide worth slowing down on, since everything else refers back to it. |
 | 5 | 3 · Model | Why model rent in logs? | Justifies the log transform: raw rents are right-skewed (a few very expensive units pull the tail), logs are close to symmetric. This is *why* coefficients are read as % effects, not € effects. |
-| 6 | 4 · Results | Main regression | The core results table. **Three numbers to memorize:** +0.9%/m², +15%/room, Vilnius +15% vs. Kaunas. Floor ratio is *not* significant here (p = 0.226), although it becomes very significant later (slide 17/18) for a different outcome (price cuts, not price level). |
-| 7 | 4 · Results | Robustness checks | Five alternative choices: area in logs, street-clustered standard errors, a price sample trimmed to the 1st and 99th percentiles, duplicate ads dropped, and the 177 influential rows dropped. Also names the two findings that can overturn the result: measured renovation quality, and a gap between asking and signed rents. |
-| 8 | 4 · Results | Coefficients, visually | Same table as slide 6, as a dot-and-whisker (95% CI) plot. It is easier to scan which effects are precisely estimated (narrow CI) vs. noisy (floor ratio, Elektra heating, both straddle zero). |
-| 9 | 5 · Diagnostics | Is the model well specified? | Three checks: heteroskedasticity (why HC1 SEs are used), multicollinearity (VIF: area/rooms correlate but not dangerously), influential points (177 high-leverage listings, explained as luxury-unit outliers). |
-| 10 | 5 · Diagnostics | How well does the model fit? | Predicted vs. actual scatter. Points hugging the 45° line = good fit; the R² = 0.638 number from slide 6 made visual. |
-| 11 | 5 · Diagnostics | Residual diagnostics | Residuals-vs-fitted + Q-Q plot. It shows the mild heteroskedasticity and right-tail non-normality the Breusch–Pagan test flagged. This is "showing your work" for why HC1 SEs were the right call. |
-| 12 | 6 · Extension | Zooming in: Vilnius by district | Swap city dummies for Vilnius-district fixed effects → R² rises from 0.649 to 0.762 on the same listings. **Paupys (+55%)** and **Senamiestis/Old Town (+40%)** are the standout premium districts; **Naujoji Vilnia (−14%)** the standout discount. Message: location keeps paying off at finer resolution. |
-| 13 | 6 · Extension | Location effects, visually | City effects and Vilnius-district effects side by side as bar charts, a visual summary of slides 6 and 12's location coefficients. |
-| 14 | 7 · Decomposition | Where does the fit come from? | **This is the most important new analytical result in the deck.** A sequential/nested R² breakdown: Size & layout alone → 40.3 points of R²; + age/floor → 42.9 (+2.7); + heating → 48.5 (+5.6); + location → 63.8 (+15.3). Location is the single biggest contributor after raw size. |
-| 15 | 7 · Decomposition | Location adds more than age, floor and heating | States the headline plainly: added last, location still adds 15.3 points, more than age + floor + heating's combined 8.3. Also ties in the district result (R² 0.649 → 0.762). |
-| 16 | 7 · Decomposition | Is the city gap real, or just composition? | A subtler point: is Vilnius more expensive because it's *actually* a better location, or just because Vilnius listings happen to be bigger/newer? Answer: for Vilnius, almost entirely genuine location (raw +17.9% gap vs. Kaunas, adjusted +15.5%, so composition explains only ~2 points). For Šiauliai/Panevėžys, roughly a fifth of their discount is just smaller/older stock, not a "location penalty" as such. |
-| 17 | 8 · Secondary outcome | Who gets a price cut? | Switches from predicting *rent level* to predicting *whether a listing gets marked down* (24.9% of listings do, logit model). Pseudo R² is tiny (0.013). Almost nothing in the hedonic model predicts discounting, **except floor ratio**, which is strongly significant here even though it wasn't for rent level. |
-| 18 | 8 · Secondary outcome | Price cuts by floor position | Visual version of slide 17's one real finding: ground/low floors get discounted far more often than top floors. |
-| 19 | 9 · Limitations and takeaways | What this is worth, and what it is not | **Read this slide out loud, don't rush it.** Takeaways: location adds more than age, floor and heating combined; an extra room ≈ +€105/month; discounting is basically unpredictable except by floor. Limitations: not causal (§ below), omitted variables (renovation quality, exact micro-location, furnishings, all priced by the market and none observed here), single snapshot (no panel structure, so no time-on-market or landlord fixed effects possible). |
-| 20 | None | Thank you | Closing slide. |
+| 6 | 4 · Results | Main regression | The core results table. **Three numbers to memorize:** +0.9%/m², +15%/room, Vilnius +15% vs. Kaunas. Floor ratio is *not* significant here (p = 0.226), although it becomes very significant later (slide 18/19) for a different outcome (price cuts, not price level). |
+| 7 | 4 · Results | Rent vs. size and room count | The two strongest raw bivariate relationships, visually. A sanity check that the regression's two biggest coefficients are not spurious. |
+| 8 | 4 · Results | Robustness checks | Five alternative choices: area in logs, street-clustered standard errors, a price sample trimmed to the 1st and 99th percentiles, duplicate ads dropped, and the 177 influential rows dropped. Also names the two findings that can overturn the result: measured renovation quality, and a gap between asking and signed rents. |
+| 9 | 4 · Results | Coefficients, visually | Same table as slide 6, as a dot-and-whisker (95% CI) plot. It is easier to scan which effects are precisely estimated (narrow CI) vs. noisy (floor ratio, Elektra heating, both straddle zero). |
+| 10 | 5 · Diagnostics | Is the model well specified? | Three checks: heteroskedasticity (why HC1 SEs are used), multicollinearity (VIF: area/rooms correlate but not dangerously), influential points (177 high-leverage listings, explained as luxury-unit outliers). |
+| 11 | 5 · Diagnostics | How well does the model fit? | Predicted vs. actual scatter. Points hugging the 45° line = good fit; the R² = 0.638 number from slide 6 made visual. |
+| 12 | 5 · Diagnostics | Residual diagnostics | Residuals-vs-fitted + Q-Q plot. It shows the mild heteroskedasticity and right-tail non-normality the Breusch–Pagan test flagged. This is "showing your work" for why HC1 SEs were the right call. |
+| 13 | 6 · Extension | Zooming in: Vilnius by district | Swap city dummies for Vilnius-district fixed effects → R² rises from 0.649 to 0.762 on the same listings. **Paupys (+55%)** and **Senamiestis/Old Town (+40%)** are the standout premium districts; **Naujoji Vilnia (−14%)** the standout discount. Message: location keeps paying off at finer resolution. |
+| 14 | 6 · Extension | Location effects, visually | City effects and Vilnius-district effects side by side as bar charts, a visual summary of slides 6 and 12's location coefficients. |
+| 15 | 7 · Decomposition | Where does the fit come from? | **This is the most important new analytical result in the deck.** A sequential/nested R² breakdown: Size & layout alone → 40.3 points of R²; + age/floor → 42.9 (+2.7); + heating → 48.5 (+5.6); + location → 63.8 (+15.3). Location is the single biggest contributor after raw size. |
+| 16 | 7 · Decomposition | Location adds more than age, floor and heating | States the headline plainly: added last, location still adds 15.3 points, more than age + floor + heating's combined 8.3. Also ties in the district result (R² 0.649 → 0.762). |
+| 17 | 7 · Decomposition | Is the city gap real, or just composition? | A subtler point: is Vilnius more expensive because it's *actually* a better location, or just because Vilnius listings happen to be bigger/newer? Answer: for Vilnius, almost entirely genuine location (raw +17.9% gap vs. Kaunas, adjusted +15.5%, so composition explains only ~2 points). For Šiauliai/Panevėžys, roughly a fifth of their discount is just smaller/older stock, not a "location penalty" as such. |
+| 18 | 8 · Secondary outcome | Who gets a price cut? | Switches from predicting *rent level* to predicting *whether a listing gets marked down* (24.9% of listings do, logit model). Pseudo R² is tiny (0.013). Almost nothing in the hedonic model predicts discounting, **except floor ratio**, which is strongly significant here even though it wasn't for rent level. |
+| 19 | 8 · Secondary outcome | Price cuts by floor position | Visual version of slide 18's one real finding: ground/low floors get discounted far more often than top floors. |
+| 20 | 9 · Limitations and takeaways | What this is worth, and what it is not | **Read this slide out loud, don't rush it.** Takeaways: location adds more than age, floor and heating combined; an extra room ≈ +€105/month; discounting is basically unpredictable except by floor. Limitations: not causal (§ below), omitted variables (renovation quality, exact micro-location, furnishings, all priced by the market and none observed here), single snapshot (no panel structure, so no time-on-market or landlord fixed effects possible). |
+| 21 | None | Thank you | Closing slide. |
 
 ### If you only have 10 minutes
 
@@ -155,7 +156,7 @@ decomposition headline, price cuts, limitations, and the closing, 8 pages, about
 Build it with `typst compile deck.typ deck-short.pdf --input short=true`; no content is duplicated, the
 short build just drops pages.
 
-In the full deck the same path is slides **1, 2, 6, 12, 14 (or 15), 17, 19**: title, framing, main results,
+In the full deck the same path is slides **1, 2, 6, 13, 15 (or 16), 18, 20**: title, framing, main results,
 the district extension, the decomposition headline, the price-cut finding, and limitations.
 
 **Lithuanian references cited on slide 2.** Raslanas, S., Šteinbergas, T., and Tupenaite, L. (2006). Research on the prices of flats in the South East London and Vilnius. *International Journal of Strategic Property Management* 10(1), 51–63. doi:10.3846/1648715X.2006.9637544. Rudokas, K., Landauskas, M., Viliūnienė, O., and Gražulevičiūtė-Vileniškė, I. (2019). Hedonic analysis of housing prices and development in Kaunas: heritage aspect. *Environmental Research, Engineering and Management* 75(2), 15–27. doi:10.5755/j01.erem.75.2.22823. Laurinavičius, A., Laurinavičius, A., and Laurinavičius, A. (2022). Macroeconomic variables influencing housing prices in Vilnius. *International Journal of Strategic Property Management* 26(1), 24–34. doi:10.3846/ijspm.2021.15961.

@@ -5,7 +5,7 @@
 **Branch:** main
 
 ## OVERVIEW
-Hedonic pricing study of 2,662 aruodas.lt rental listings (6 cities plus smaller towns): Python (pandas/statsmodels) regression pipeline plus a 20-slide Typst deck styled on the VU wildcat theme. Everything regenerates from one hand-pasted text dump, with no scraped or hand-edited data.
+Hedonic pricing study of 2,662 aruodas.lt rental listings (6 cities plus smaller towns): Python (pandas/statsmodels) regression pipeline plus a 21-slide Typst deck styled on the VU wildcat theme. Everything regenerates from one hand-pasted text dump, with no scraped or hand-edited data.
 
 ## STRUCTURE
 ```
@@ -18,7 +18,7 @@ Hedonic pricing study of 2,662 aruodas.lt rental listings (6 cities plus smaller
 ├── pyproject.toml           # project metadata + dependencies (uv)
 ├── uv.lock                  # committed lockfile; `uv sync` builds .venv
 └── slides/
-    ├── deck.typ            # Typst deck source: 20 slides, 16x9 cm, no packages
+    ├── deck.typ            # Typst deck source: 21 slides, 16x9 cm, no packages
     ├── deck.pdf            # built deck (typst compile deck.typ)
     ├── deck-short.pdf      # 8-page 10-minute cut (--input short=true)
     ├── make_charts.py      # 7 main-deck figures (re-estimates models itself)
@@ -59,7 +59,7 @@ No package index, no exports between modules: the pipeline is file-based.
 - All models use `cov_type="HC1"`; logit uses `.fit(disp=0)`.
 - JSON outputs: `json.dump(..., indent=2, ensure_ascii=False)`.
 - Figure style is monochrome by contract: serif + `mathtext.fontset="cm"`, black/gray `#555555`, grid `#dddddd`, DPI 220, no top/right spines. Charts carry no titles duplicated by the deck.
-- Deck style: 16x9 cm pages, top margin 1.85 cm, body 9.5 pt, TeX Gyre Adventor/Heros with Inter/DejaVu fallbacks, burgundy `#7D2035` + gold `#FFD100`, pages numbered `n / <total>` (20 full build, 8 short build).
+- Deck style: 16x9 cm pages, top margin 1.85 cm, body 9.5 pt, TeX Gyre Adventor/Heros with Inter/DejaVu fallbacks, burgundy `#7D2035` + gold `#FFD100`, pages numbered `n / <total>` (21 full build, 8 short build).
 - Figures are sized by **one** dimension (`width:` for landscape, `height:` for portrait); Typst keeps the aspect ratio, so chart figsize changes need no deck edit.
 
 ## ANTI-PATTERNS (THIS PROJECT)
@@ -67,7 +67,7 @@ No package index, no exports between modules: the pipeline is file-based.
 - Do not run `slides/*.py` from the repo root: image paths resolve to `assets/` and data to `../`.
 - Do not add a second deck target (pptx/html) without a source of truth: the converted deck is `slides/deck.typ` only.
 - Do not hardcode coefficients in chart scripts. Read them from the fitted model or the JSON (`make_charts.py` district effects come from `vil_model.params`).
-- Do not exceed the page body height (6.4 cm): Typst silently pushes the overflow onto a new page, so always check the compiled page count (20 full, 8 short).
+- Do not exceed the page body height (6.4 cm): Typst silently pushes the overflow onto a new page, so always check the compiled page count (21 full, 8 short).
 - Do not phrase findings causally. README §6 is explicit: cross-sectional snapshot, no identification strategy.
 - Do not re-introduce the equation PNGs: Typst typesets the math natively.
 
@@ -86,7 +86,7 @@ uv run python decomposition.py      # -> decomposition_results.json
 cd slides
 uv run python make_charts.py        # -> 7 chart PNGs
 uv run python decomposition_charts.py   # -> assets/seq_r2.png, city_gap_decomp.png
-typst compile deck.typ              # -> deck.pdf (20 pages)
+typst compile deck.typ              # -> deck.pdf (21 pages)
 typst compile deck.typ deck-short.pdf --input short=true   # -> 8-page 10-minute cut
 
 # page-level QA
@@ -98,6 +98,6 @@ No tests, no CI. Typst 0.15+ is the only deck dependency.
 - Sample: 2,662 parsed -> 2,640 in regressions (22 implausible build years/rents dropped). Charts re-run their own estimation, so they need `listings.xlsx`, not the JSONs, except `decomposition_charts.py`, which needs `decomposition.py` to have run first.
 - `build_listings.py` emits three `listing_type` values: `standalone`, `project_main`, `project_unit` (bundle expansion after a `Daugiau butų projekte:` marker).
 - Deck figures come from `slides/assets/`; the title and closing pages use `facets.svg` and `vu-logo-white.png` copied from the VU wildcat theme.
-- `slides/deck.typ` builds two PDFs from one source: the default 20 pages, and 8 pages under `--input short=true`, which drops every slide whose title is not listed in `SHORT_KEEP`. Renaming a slide title silently drops it from the short build.
+- `slides/deck.typ` builds two PDFs from one source: the default 21 pages, and 8 pages under `--input short=true`, which drops every slide whose title is not listed in `SHORT_KEEP`. Renaming a slide title silently drops it from the short build.
 - Old deck targets (`deck.html`, `build_deck.js`, `apply_theme.js`, `package.json`, `render_equations.py`, `Rental_Price_Hedonics.pptx`) were removed in the Typst conversion; git history still has them.
 - `price_cut` rate in the regression sample is 24.92% (deck says 24.9%); the logit's city/heating dummies all have p > 0.07 (lowest is "Other" at 0.0797).
