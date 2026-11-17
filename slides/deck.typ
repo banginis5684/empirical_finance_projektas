@@ -420,6 +420,8 @@
       #text(size: 9pt, fill: vu-20)[A hedonic pricing analysis of 2,662 aruodas.lt rental listings.]
       #v(0.45cm)
       #text(size: 9pt, fill: gold)[Questions and discussion are welcome.]
+      #v(0.3cm)
+      #text(size: 8pt, fill: vu-20)[Data and code: #link("https://github.com/banginis5684/empirical_finance_projektas")[#text(fill: white)[github.com/banginis5684/empirical_finance_projektas]]]
     ]
   ]
 ]
