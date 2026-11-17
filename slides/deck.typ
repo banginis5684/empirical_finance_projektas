@@ -98,16 +98,20 @@
   margin: 0pt,
   background: image("assets/facets.svg", width: 100%, height: 100%),
 )[
-  #place(top + left, dx: 0.4cm, dy: 0.25cm, image("assets/vu-logo-white.png", width: 1.9cm))
-  #place(bottom + left, dx: 0.95cm, dy: -0.8cm)[
+  #place(top + left, dx: 0.4cm, dy: 0.25cm, image("assets/vu-logo-white.png", width: 1.7cm))
+  #place(bottom + left, dx: 0.95cm, dy: -0.55cm)[
     #block(width: 12.2cm)[
       #text(font: display, size: 7.5pt, fill: gold, tracking: 0.14em)[EMPIRICAL FINANCE · COURSE PROJECT]
-      #v(0.3cm)
-      #text(font: display, size: 24pt, fill: white, weight: "bold")[What Determines Apartment Rent?]
-      #v(0.3cm)
-      #text(size: 9.5pt, fill: vu-20)[A hedonic pricing analysis of 2,662 rental listings from aruodas.lt, Lithuania's largest real-estate portal.]
-      #v(0.45cm)
-      #text(size: 8.5pt, fill: white)[Data collected November 2026 · 6 cities plus smaller towns · cross-sectional, single snapshot]
+      #v(0.16cm)
+      #text(font: display, size: 20pt, fill: white, weight: "bold")[What Determines Apartment Rent?]
+      #v(0.2cm)
+      #text(size: 8.8pt, fill: vu-20)[A hedonic pricing analysis of 2,662 rental listings from aruodas.lt, Lithuania's largest real-estate portal.]
+      #v(0.22cm)
+      #text(size: 9pt, fill: white)[Aidas Kriščiūnas · Domas Pitrėnas]
+      #v(0.08cm)
+      #text(size: 7.5pt, fill: vu-20, "aidas.krisciunas@evaf.stud.vu.lt · domas.pitrenas@evaf.stud.vu.lt")
+      #v(0.22cm)
+      #text(size: 7.8pt, fill: white)[Data collected November 2026 · 6 cities plus smaller towns · cross-sectional, single snapshot]
     ]
   ]
 ]
