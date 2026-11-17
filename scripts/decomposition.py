@@ -4,12 +4,15 @@ decomposition by block, raw-vs-adjusted city rent gaps, and coefficients
 translated into euro amounts. Reuses the same cleaning as analysis.py.
 """
 import json
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
 
-df = pd.read_excel("listings.xlsx")
+ROOT = Path(__file__).resolve().parents[1]
+
+df = pd.read_excel(ROOT / "data" / "processed" / "listings.xlsx")
 
 df["city"] = df["location"].str.split(",").str[0].str.strip()
 top_cities = {"Vilnius", "Kaunas", "Klaipėda", "Šiauliai", "Palanga", "Panevėžys"}
@@ -104,7 +107,7 @@ results = {
     "euro_effects": euros,
 }
 
-with open("decomposition_results.json", "w", encoding="utf-8") as f:
+with open(ROOT / "results" / "decomposition_results.json", "w", encoding="utf-8") as f:
     json.dump(results, f, indent=2, ensure_ascii=False)
 
 print(json.dumps(results, indent=2, ensure_ascii=False))

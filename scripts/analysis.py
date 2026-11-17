@@ -1,9 +1,10 @@
 """
 analysis.py - hedonic pricing regression on the aruodas.lt rental listings
-(listings.xlsx), plus a secondary logit on price cuts. Produces the numbers
-used in the slide deck.
+(data/processed/listings.xlsx), plus a secondary logit on price cuts. Produces
+the numbers used in the slide deck into results/analysis_results.json.
 """
 import json
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -12,7 +13,9 @@ import statsmodels.formula.api as smf
 from statsmodels.stats.diagnostic import het_breuschpagan
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 
-df = pd.read_excel("listings.xlsx")
+ROOT = Path(__file__).resolve().parents[1]
+
+df = pd.read_excel(ROOT / "data" / "processed" / "listings.xlsx")
 
 # ---- cleaning ----------------------------------------------------------
 df["city"] = df["location"].str.split(",").str[0].str.strip()
@@ -120,7 +123,7 @@ results = {
     "heat_counts": reg["heat_grp"].value_counts().to_dict(),
 }
 
-with open("analysis_results.json", "w", encoding="utf-8") as f:
+with open(ROOT / "results" / "analysis_results.json", "w", encoding="utf-8") as f:
     json.dump(results, f, indent=2, ensure_ascii=False)
 
 print(model.summary())

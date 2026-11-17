@@ -41,8 +41,9 @@ from pathlib import Path
 
 import pandas as pd
 
-SRC = Path(__file__).with_name("alldataaruodas.txt")
-OUT = Path(__file__).with_name("listings.xlsx")
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "data" / "raw" / "alldataaruodas.txt"
+OUT = ROOT / "data" / "processed" / "listings.xlsx"
 
 POSTED_RE = re.compile(r"^Prieš\s+(.+)$")
 ROOMS_RE = re.compile(r"^(\d+)\s*k\.$")
@@ -247,6 +248,7 @@ def main():
         "year_built", "heating", "source",
     ]
     df = pd.DataFrame(records, columns=columns)
+    OUT.parent.mkdir(parents=True, exist_ok=True)
     df.to_excel(OUT, index=False)
     print(f"total records: {len(df)}")
     print(df["listing_type"].value_counts())

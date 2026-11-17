@@ -1,9 +1,11 @@
 """
 make_charts.py - all-monochrome figures for the "visual material" slides.
-Rebuilds the same models as ../analysis.py (kept self-contained here) and
+Rebuilds the same models as scripts/analysis.py (kept self-contained here) and
 renders each figure as a plain black-on-white PNG, matching the deck's
 no-color, LaTeX-typeface style.
 """
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import statsmodels.formula.api as smf
@@ -12,6 +14,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 from scipy import stats
+
+ROOT = Path(__file__).resolve().parents[1]
+DATA = ROOT / "data" / "processed" / "listings.xlsx"
+ASSETS = ROOT / "slides" / "assets"
 
 plt.rcParams.update({
     "font.family": "serif",
@@ -28,7 +34,7 @@ BLACK = "black"
 DPI = 220
 
 # ---- data + models (mirrors ../analysis.py) ------------------------------
-df = pd.read_excel("../listings.xlsx")
+df = pd.read_excel(DATA)
 df["city"] = df["location"].str.split(",").str[0].str.strip()
 top_cities = {"Vilnius", "Kaunas", "Klaipėda", "Šiauliai", "Palanga", "Panevėžys"}
 df["city_grp"] = np.where(df["city"].isin(top_cities), df["city"], "Other")
@@ -64,7 +70,7 @@ vil_model = smf.ols("log_price ~ area_m2 + rooms + age + floor_ratio + C(heat_gr
 
 
 def savefig(fig, name, pad=0.15):
-    fig.savefig(f"assets/{name}.png", dpi=DPI, bbox_inches="tight", pad_inches=pad, facecolor="white")
+    fig.savefig(ASSETS / f"{name}.png", dpi=DPI, bbox_inches="tight", pad_inches=pad, facecolor="white")
     plt.close(fig)
 
 

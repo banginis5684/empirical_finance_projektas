@@ -1,14 +1,20 @@
 """
-decomposition_charts.py - two monochrome figures for the new "decomposition"
-slides, built from ../decomposition_results.json (run ../decomposition.py first).
+decomposition_charts.py - two monochrome figures for the "decomposition"
+slides, built from results/decomposition_results.json (run scripts/decomposition.py first).
 """
 import json
+from pathlib import Path
+
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 from matplotlib.patches import Patch
+
+ROOT = Path(__file__).resolve().parents[1]
+RESULTS = ROOT / "results" / "decomposition_results.json"
+ASSETS = ROOT / "slides" / "assets"
 
 plt.rcParams.update({
     "font.family": "serif",
@@ -23,12 +29,12 @@ plt.rcParams.update({
 BLACK = "black"
 DPI = 220
 
-with open("../decomposition_results.json", encoding="utf-8") as f:
+with open(RESULTS, encoding="utf-8") as f:
     d = json.load(f)
 
 
 def savefig(fig, name, pad=0.15):
-    fig.savefig(f"assets/{name}.png", dpi=DPI, bbox_inches="tight", pad_inches=pad, facecolor="white")
+    fig.savefig(ASSETS / f"{name}.png", dpi=DPI, bbox_inches="tight", pad_inches=pad, facecolor="white")
     plt.close(fig)
 
 

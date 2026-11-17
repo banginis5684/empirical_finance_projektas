@@ -18,15 +18,18 @@ analysis can still present it confidently or review it critically.
 
 ```
 .
-├── alldataaruodas.txt              Raw scrape: pasted text dump of aruodas.lt listing pages
-├── build_listings.py               Parses the raw text into a clean tabular dataset
-├── listings.xlsx                   The cleaned dataset (2,662 rows), the single source of truth
-├── analysis.py                     Main hedonic regression + logit + Vilnius-district robustness model
-├── analysis_results.json           Numeric output of analysis.py (every coefficient, SE, p-value, diagnostic)
-├── decomposition.py                Extra analysis: sequential R² decomposition, city-gap decomposition, € effects
-├── decomposition_results.json      Numeric output of decomposition.py
+├── data/
+│   ├── raw/alldataaruodas.txt      Raw scrape: pasted text dump of aruodas.lt listing pages
+│   └── processed/listings.xlsx     The cleaned dataset (2,662 rows), the single source of truth
+├── results/
+│   ├── analysis_results.json       Numeric output of scripts/analysis.py (every coefficient, SE, p-value, diagnostic)
+│   └── decomposition_results.json  Numeric output of scripts/decomposition.py
+├── scripts/
+│   ├── build_listings.py           Parses the raw text into data/processed/listings.xlsx
+│   ├── analysis.py                 Main hedonic regression + logit + Vilnius-district robustness model
+│   └── decomposition.py            Extra analysis: sequential R² decomposition, city-gap decomposition, € effects
 ├── pyproject.toml                  Project metadata and Python dependencies (uv)
-├── uv.lock                        Locked dependency set, committed
+├── uv.lock                         Locked dependency set, committed
 └── slides/
     ├── deck.typ                    The deck source (Typst, 21 slides, 16:9, no packages)
     ├── deck.pdf                    The built deck: this is the artifact to present
@@ -35,20 +38,20 @@ analysis can still present it confidently or review it critically.
     └── assets/                     Chart images plus the VU facets and mark used on the title slides
 ```
 
-**Everything regenerates from `alldataaruodas.txt` alone.** Nothing here is hand-edited data. Every
+**Everything regenerates from `data/raw/alldataaruodas.txt` alone.** Nothing here is hand-edited data. Every
 number on every slide traces back through a script to that raw text file.
 
 ---
 
 ## 2. The data pipeline
 
-1. **`alldataaruodas.txt`**: a manual copy-paste of aruodas.lt rental listing pages (not an API scrape or
+1. **`data/raw/alldataaruodas.txt`**: a manual copy-paste of aruodas.lt rental listing pages (not an API scrape or
    OCR of screenshots, because both were tried earlier in this project and were unreliable; plain copy-pasted text
    turned out to be the most faithful source).
-2. **`build_listings.py`** parses that text into `listings.xlsx`: 2,662 listings with columns for city,
+2. **`scripts/build_listings.py`** parses that text into `data/processed/listings.xlsx`: 2,662 listings with columns for city,
    street, price, any recorded price change, deposit, rooms, area, floor / total floors, year built,
    heating type, and listing type.
-3. **`analysis.py`** cleans that further for regression: drops 22 listings with implausible build years
+3. **`scripts/analysis.py`** cleans that further for regression: drops 22 listings with implausible build years
    (before 1800) or rents outside €100–5,000, leaving **N = 2,640**. This is the sample every statistic in
    the main deck is built on.
 
@@ -92,28 +95,27 @@ ln(Price_i) = β₀ + β₁·Area_i + β₂·Rooms_i + β₃·Age_i + β₄·Flo
 uv sync                             # builds .venv from uv.lock, exact versions
 
 # 1. Rebuild the dataset from the raw scrape
-uv run python build_listings.py     # → listings.xlsx
+uv run python scripts/build_listings.py     # → data/processed/listings.xlsx
 
 # 2. Run the regressions
-uv run python analysis.py           # → analysis_results.json, prints full regression summaries
-uv run python decomposition.py      # → decomposition_results.json
+uv run python scripts/analysis.py           # → results/analysis_results.json, prints full regression summaries
+uv run python scripts/decomposition.py      # → results/decomposition_results.json
 
-# 3. Render chart images (run from inside slides/)
-cd slides
-uv run python make_charts.py        # → assets/hist_price.png, scatter_area_rooms.png, fit.png, resid.png,
+# 3. Render chart images
+uv run python slides/make_charts.py        # → slides/assets/hist_price.png, scatter_area_rooms.png, fit.png, resid.png,
                                      #   coefplot.png, bars_city_district.png, pricecut_floor.png
-uv run python decomposition_charts.py   # → assets/seq_r2.png, city_gap_decomp.png
+uv run python slides/decomposition_charts.py   # → slides/assets/seq_r2.png, city_gap_decomp.png
 
 # 4. Build the deck (needs Typst 0.15 or newer, nothing else)
-typst compile deck.typ              # → deck.pdf
+typst compile slides/deck.typ       # → slides/deck.pdf
 ```
 
 `deck.pdf` is the presentation. Equations are typeset by Typst itself, so there are no equation images to
 rebuild, and the page count, margins and type are fixed by `slides/deck.typ` alone.
 
 Python dependencies are uv-managed: `pyproject.toml` declares them, `uv.lock` pins the resolution, and
-`uv sync` builds `.venv`. `uv run python ...` works from the repo root and from `slides/`. The deck needs no
-Python packages and no npm packages.
+`uv sync` builds `.venv`. Every script resolves its paths from its own location, so `uv run python ...` works
+from any directory. The deck needs no Python packages and no npm packages.
 
 ---
 
@@ -122,7 +124,7 @@ Python packages and no npm packages.
 `slides/deck.typ` compiles to that 21-page PDF, styled after the Vilnius University wildcat theme: burgundy
 titles, a gold rule, and a monochrome figure style. The PDF is the presentation artifact. Open it in any
 viewer, or present straight from it. A second build keeps only the slides a short talk needs:
-`typst compile deck.typ deck-short.pdf --input short=true` gives an 8-page `deck-short.pdf` from the same
+`typst compile slides/deck.typ slides/deck-short.pdf --input short=true` gives an 8-page `slides/deck-short.pdf` from the same
 source.
 
 | # | Section | Slide | What it means / how to present it |
@@ -153,7 +155,7 @@ source.
 
 `deck-short.pdf` is exactly that cut: the title, framing, main regression, Vilnius districts, the
 decomposition headline, price cuts, limitations, and the closing, 8 pages, about 9 minutes at a normal pace.
-Build it with `typst compile deck.typ deck-short.pdf --input short=true`; no content is duplicated, the
+Build it with `typst compile slides/deck.typ slides/deck-short.pdf --input short=true`; no content is duplicated, the
 short build just drops pages.
 
 In the full deck the same path is slides **1, 2, 6, 13, 15 (or 16), 18, 20**: title, framing, main results,
@@ -196,6 +198,6 @@ type *combined*. That's the one number worth leading with if someone only rememb
   hand-off. There is no PowerPoint export: the PDF is the deck.
 - The dataset is a **single scrape** (November 2026) of **currently-live listings**, not a random sample of
   the rental market, and not a time series. Units that rent instantly never appear.
-- `alldataaruodas.txt` was manually copy-pasted from aruodas.lt, not scraped via an API. This was a
+- `data/raw/alldataaruodas.txt` was manually copy-pasted from aruodas.lt, not scraped via an API. This was a
   deliberate choice after two earlier approaches (browser screenshot automation + OCR) both proved unreliable
   on this data.
